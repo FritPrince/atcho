@@ -135,3 +135,5 @@ export default function MessageIndex({ messages }: Props) {
         </AdminLayout>
     );
 }
+
+

@@ -114,3 +114,5 @@ class PaiementController extends Controller
             ->with('success', 'Paiement supprimé avec succès.');
     }
 }
+
+

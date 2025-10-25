@@ -11,27 +11,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $this->command->info('🌹 Initialisation des données Atcho...');
-        
-        // 1. Créer les rôles et permissions
-        $this->call([
-            RolePermissionSeeder::class,
-        ]);
-        
-        // 2. Créer l'utilisateur admin
-        $this->call([
-            AdminUserSeeder::class,
-        ]);
-        
-        // 3. Créer les données de mode complètes
-        $this->call([
-            FashionDataSeeder::class,
-        ]);
+        // User::factory(10)->create();
 
-        $this->call([
-            FashionImageSeeder::class,
-        ]);
-
-        $this->command->info('✨ Base de données initialisée avec succès !');
+        // User::factory()->create([
+        //     'name' => 'Test User',
+        //     'email' => 'test@example.com',
+        // ]);
     }
 }

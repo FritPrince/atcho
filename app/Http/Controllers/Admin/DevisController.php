@@ -114,3 +114,5 @@ class DevisController extends Controller
             ->with('success', 'Devis supprimé avec succès.');
     }
 }
+
+

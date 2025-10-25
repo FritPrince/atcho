@@ -177,3 +177,5 @@ export default function AvisEdit({ avis }: Props) {
         </AdminLayout>
     );
 }
+
+

@@ -15,13 +15,17 @@ return new class extends Migration
             $table->id();
             $table->string('reference')->unique();
             $table->decimal('montant_final', 10, 2);
+            $table->string('image_commande')->nullable();
+            $table->json('images_produits')->nullable();
+            $table->json('images_avant_apres')->nullable();
+            $table->json('images_livraison')->nullable();
             $table->timestamp('date_creation')->nullable();
             $table->timestamp('date_livraison_prevue')->nullable();
             $table->timestamp('date_livraison_reelle')->nullable();
             $table->text('conditions_livraison')->nullable();
             $table->enum('statut', ['EN_PREPARATION', 'EN_COUPAGE', 'EN_ASSEMBLAGE', 'TERMINEE', 'LIVREE'])->default('EN_PREPARATION');
             $table->foreignId('projet_id')->constrained('projets')->onDelete('cascade');
-            $table->foreignId('atelier_id')->constrained('profil_ateliers')->onDelete('cascade');
+            $table->foreignId('atelier_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

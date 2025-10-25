@@ -235,3 +235,5 @@ export default function MateriauShow({ materiau }: Props) {
         </AdminLayout>
     );
 }
+
+

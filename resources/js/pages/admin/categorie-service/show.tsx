@@ -182,3 +182,5 @@ export default function CategorieServiceShow({ categorieService }: Props) {
         </AdminLayout>
     );
 }
+
+

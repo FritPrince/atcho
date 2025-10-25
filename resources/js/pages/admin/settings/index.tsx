@@ -242,3 +242,5 @@ export default function SettingsIndex({ settings }: Props) {
         </AdminLayout>
     );
 }
+
+

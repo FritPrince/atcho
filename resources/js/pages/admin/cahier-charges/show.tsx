@@ -150,3 +150,5 @@ export default function CahierChargesShow({ cahierCharges }: Props) {
         </>
     );
 }
+
+

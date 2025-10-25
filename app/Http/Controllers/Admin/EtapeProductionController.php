@@ -101,3 +101,5 @@ class EtapeProductionController extends Controller
             ->with('success', 'Étape de production supprimée avec succès.');
     }
 }
+
+

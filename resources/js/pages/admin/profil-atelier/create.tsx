@@ -134,3 +134,5 @@ export default function ProfilAtelierCreate() {
         </AdminLayout>
     );
 }
+
+

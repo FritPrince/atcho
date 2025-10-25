@@ -211,3 +211,5 @@ export default function CategorieServiceEdit({ categorieService }: Props) {
         </AdminLayout>
     );
 }
+
+

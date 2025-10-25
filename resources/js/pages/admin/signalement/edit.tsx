@@ -232,3 +232,5 @@ export default function SignalementEdit({ signalement }: Props) {
         </AdminLayout>
     );
 }
+
+

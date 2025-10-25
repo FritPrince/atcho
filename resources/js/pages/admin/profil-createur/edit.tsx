@@ -147,3 +147,5 @@ export default function ProfilCreateurEdit({ profilCreateur }: Props) {
         </AdminLayout>
     );
 }
+
+

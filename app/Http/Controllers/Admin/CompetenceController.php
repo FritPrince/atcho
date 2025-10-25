@@ -92,3 +92,5 @@ class CompetenceController extends Controller
             ->with('success', 'Compétence supprimée avec succès.');
     }
 }
+
+

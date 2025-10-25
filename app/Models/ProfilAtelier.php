@@ -37,6 +37,7 @@ class ProfilAtelier extends Model
         'nombre_projets_realises',
         'accepte_urgences',
         'rayon_intervention_km',
+        'specialites_textiles',
     ];
 
     protected function casts(): array
@@ -45,6 +46,7 @@ class ProfilAtelier extends Model
             'galerie_images' => 'array',
             'images_equipements' => 'array',
             'specialites' => 'array',
+            'specialites_textiles' => 'array',
             'equipements' => 'array',
             'certifications' => 'array',
             'accepte_urgences' => 'boolean',
@@ -63,17 +65,17 @@ class ProfilAtelier extends Model
 
     public function devis()
     {
-        return $this->hasMany(Devis::class, 'atelier_id');
+        return $this->hasMany(Devis::class, 'atelier_id', 'utilisateur_id');
     }
 
     public function commandes()
     {
-        return $this->hasMany(Commande::class, 'atelier_id');
+        return $this->hasMany(Commande::class, 'atelier_id', 'utilisateur_id');
     }
 
     public function portfolios()
     {
-        return $this->hasMany(Portfolio::class, 'atelier_id');
+        return $this->hasMany(Portfolio::class, 'atelier_id', 'utilisateur_id');
     }
 
     public function specialites()

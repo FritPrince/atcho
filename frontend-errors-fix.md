@@ -91,3 +91,5 @@ Le sidebar admin affiche maintenant **toutes les 26 sections** :
 
 ## ⚠️ **Important :**
 Ne supprimez plus les imports et exports des routes admin, sinon le sidebar redeviendra vide !
+
+

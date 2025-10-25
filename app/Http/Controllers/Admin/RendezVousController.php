@@ -114,3 +114,5 @@ class RendezVousController extends Controller
             ->with('success', 'Rendez-vous supprimé avec succès.');
     }
 }
+
+

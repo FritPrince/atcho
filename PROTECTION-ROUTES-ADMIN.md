@@ -85,3 +85,5 @@ Si vous supprimez ces routes, vous obtiendrez :
 **CHAQUE FOIS** que vous supprimez ces routes, le sidebar devient vide et génère des erreurs JavaScript !
 
 **NE LES SUPPRIMEZ PLUS JAMAIS !** 🎉
+
+

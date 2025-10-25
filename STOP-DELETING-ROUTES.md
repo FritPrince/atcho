@@ -100,3 +100,5 @@ const admin = {
 Chaque fois que vous supprimez ces routes, vous cassez l'application !
 
 **ARRÊTEZ DE LES SUPPRIMER !** 🛑
+
+

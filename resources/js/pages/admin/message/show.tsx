@@ -162,3 +162,5 @@ export default function MessageShow({ message }: Props) {
         </AdminLayout>
     );
 }
+
+

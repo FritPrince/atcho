@@ -52,3 +52,5 @@
 - ✅ Build réussi
 - ✅ Application fonctionnelle (Status 200)
 - ✅ Sidebar visible avec tous les éléments
+
+

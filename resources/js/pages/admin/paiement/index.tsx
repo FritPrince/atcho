@@ -164,3 +164,5 @@ export default function PaiementIndex({ paiements }: Props) {
         </AdminLayout>
     );
 }
+
+

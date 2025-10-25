@@ -232,3 +232,5 @@ export default function PaiementShow({ paiement }: Props) {
         </AdminLayout>
     );
 }
+
+

@@ -21,12 +21,14 @@ class ProfilCreateur extends Model
         'instagram',
         'experience',
         'secteur',
+        'specialites_textiles',
     ];
 
     protected function casts(): array
     {
         return [
             'galerie_images' => 'array',
+            'specialites_textiles' => 'array',
         ];
     }
 

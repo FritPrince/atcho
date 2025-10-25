@@ -152,3 +152,5 @@ export default function CompetenceEdit({ competence }: Props) {
         </AdminLayout>
     );
 }
+
+

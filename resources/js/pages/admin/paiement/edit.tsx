@@ -207,3 +207,5 @@ export default function PaiementEdit({ paiement }: Props) {
         </AdminLayout>
     );
 }
+
+

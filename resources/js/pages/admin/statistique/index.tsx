@@ -306,3 +306,5 @@ export default function StatistiqueIndex({ statistiques, resume }: Props) {
         </AdminLayout>
     );
 }
+
+

@@ -22,6 +22,9 @@ class Projet extends Model
         'date_debut_souhaitee',
         'budget_estime',
         'quantite',
+        'couleurs',
+        'tailles',
+        'materiaux_requis',
         'complexite',
         'confidentialite',
         'statut',
@@ -37,6 +40,9 @@ class Projet extends Model
             'budget_estime' => 'decimal:2',
             'galerie_images' => 'array',
             'images_avant_apres' => 'array',
+            'couleurs' => 'array',
+            'tailles' => 'array',
+            'materiaux_requis' => 'array',
         ];
     }
 

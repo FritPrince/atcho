@@ -46,3 +46,5 @@ class SettingController extends Controller
             ->with('success', 'Paramètres mis à jour avec succès.');
     }
 }
+
+

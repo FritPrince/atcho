@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('atelier_specialites', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('atelier_id')->constrained('profil_ateliers')->onDelete('cascade');
+            $table->foreignId('atelier_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('categorie_id')->constrained('categorie_services')->onDelete('cascade');
             $table->integer('niveau_expertise')->default(1); // 1-5
             $table->decimal('tarif_horaire', 8, 2)->nullable();

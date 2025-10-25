@@ -154,3 +154,5 @@ export default function CompetenceIndex({ competences }: Props) {
         </AdminLayout>
     );
 }
+
+

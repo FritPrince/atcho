@@ -94,3 +94,5 @@ class MateriauController extends Controller
             ->with('success', 'Matériau supprimé avec succès.');
     }
 }
+
+

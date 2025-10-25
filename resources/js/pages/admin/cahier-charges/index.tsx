@@ -101,3 +101,5 @@ export default function CahierChargesIndex({ cahiersCharges }: Props) {
         </>
     );
 }
+
+

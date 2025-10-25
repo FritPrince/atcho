@@ -46,7 +46,7 @@ class Commande extends Model
 
     public function atelier()
     {
-        return $this->belongsTo(ProfilAtelier::class, 'atelier_id');
+        return $this->belongsTo(User::class, 'atelier_id');
     }
 
     public function etapes()

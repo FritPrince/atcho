@@ -12,7 +12,6 @@ class Adresse extends Model
     protected $table = 'addresses';
 
     protected $fillable = [
-        'user_id',
         'ligne1',
         'ligne2',
         'code_postal',
@@ -37,10 +36,6 @@ class Adresse extends Model
         return $this->hasMany(User::class);
     }
 
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
 
     public function rendezVous()
     {

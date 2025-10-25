@@ -146,3 +146,5 @@ export default function ProfilAtelierEdit({ profilAtelier }: Props) {
         </AdminLayout>
     );
 }
+
+

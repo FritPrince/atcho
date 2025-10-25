@@ -120,3 +120,5 @@ if ($success) {
     echo "\n⚠️  Vérifiez les images inaccessibles.\n";
     exit(1);
 }
+
+

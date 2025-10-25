@@ -99,3 +99,5 @@ class MessageController extends Controller
             ->with('success', 'Message supprimé avec succès.');
     }
 }
+
+

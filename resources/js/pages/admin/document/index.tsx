@@ -148,3 +148,5 @@ export default function DocumentIndex({ documents }: Props) {
         </AdminLayout>
     );
 }
+
+

@@ -1,34 +1,23 @@
 import AdminLayout from '@/layouts/admin-layout';
 import { type BreadcrumbItem } from '@/types';
-import { Head, Link } from '@inertiajs/react';
+import { Head } from '@inertiajs/react';
 import { 
     Users, 
-    Package, 
     ShoppingCart, 
     TrendingUp,
-    Briefcase,
     Layers,
-    UserCheck,
-    AlertCircle,
-    Bell,
-    BarChart3,
     Activity,
-    Clock,
-    CheckCircle,
     Crown,
-    Sparkles,
-    Target
+    Award,
+    ArrowUpRight,
+    UserPlus,
+    Briefcase
 } from 'lucide-react';
-import { RevenueChart } from '@/components/ui/chart';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
 
-const breadcrumbs: BreadcrumbItem[] = [
-    {
-        title: 'Administration',
-        href: '/admin',
-    },
-].filter(item => item && item.title && item.href);
-
-interface Props {
+// Types pour les données réelles
+interface DashboardProps {
     stats: {
         total_users: number;
         total_createurs: number;
@@ -39,11 +28,28 @@ interface Props {
         total_quotes: number;
         active_conversations: number;
     };
+    usersByRole: Record<string, number>;
+    projectsByStatus: Record<string, number>;
+    ordersByStatus: Record<string, number>;
+    monthlyRevenue: Array<{ month: string; revenue: number }>;
+    recentUsers: Array<{
+        id: number;
+        prenom: string;
+        nom: string;
+        email: string;
+        created_at: string;
+    }>;
+    recentProjects: Array<{
+        id: number;
+        nom: string;
+        createur: { name: string };
+        statut: string;
+        created_at: string;
+    }>;
     recentCreateurs: Array<{
         id: number;
         nom_marque: string;
         style: string;
-        experience: string;
         createur: string;
         photo_profil: string;
         created_at: string;
@@ -52,490 +58,235 @@ interface Props {
         id: number;
         titre: string;
         description: string;
-        image_principale: string;
         createur: string;
         created_at: string;
     }>;
-    monthlyRevenue: Array<{month: string; revenue: number}>;
 }
 
-export default function AdminDashboard({ stats, recentCreateurs, recentProjets, monthlyRevenue }: Props) {
-    // Données formatées pour l'affichage
-    const formattedStats = {
-        totalUsers: stats.total_users,
-        totalCreateurs: stats.total_createurs,
-        totalAteliers: stats.total_ateliers,
-        totalProjects: stats.total_projects,
-        totalPortfolios: stats.total_portfolios,
-        totalOrders: stats.total_orders,
-        totalRevenue: 125430,
-        userGrowth: 12.5,
-        projectGrowth: 8.3,
-        orderGrowth: 15.2,
-        revenueGrowth: 22.1
-    };
-
-    const recentActivities = [
-        {
-            id: 1,
-            type: 'user',
-            message: 'Nouveau créateur mode inscrit',
-            user: 'Marie Dubois',
-            time: '2 min',
-            status: 'success'
-        },
-        {
-            id: 2,
-            type: 'project',
-            message: 'Collection automne publiée',
-            user: 'Atelier Chantal',
-            time: '15 min',
-            status: 'info'
-        },
-        {
-            id: 3,
-            type: 'order',
-            message: 'Commande haute couture confirmée',
-            user: 'Client VIP',
-            time: '1h',
-            status: 'success'
-        },
-        {
-            id: 4,
-            type: 'alert',
-            message: 'Signalement de contenu',
-            user: 'Modération',
-            time: '2h',
-            status: 'warning'
-        }
+export default function AdminDashboard({ 
+    stats, 
+    projectsByStatus, 
+    recentUsers, 
+    recentProjects, 
+    recentCreateurs
+}: DashboardProps) {
+    const breadcrumbs: BreadcrumbItem[] = [
+        { title: 'Tableau de bord', href: '/admin' }
     ];
 
-    const quickActions = [
-        {
-            title: 'Valider Comptes',
-            description: 'Approuver les nouveaux créateurs',
-            icon: UserCheck,
-            href: '/admin/validation',
-            color: 'bg-sky-500',
-            count: 12
-        },
-        {
-            title: 'Gérer Collections',
-            description: 'Superviser les projets mode',
-            icon: Layers,
-            href: '/admin/projects',
-            color: 'bg-blue-500',
-            count: 8
-        },
-        {
-            title: 'Analytics Avancées',
-            description: 'Tableaux de bord détaillés',
-            icon: BarChart3,
-            href: '/admin/analytics',
-            color: 'bg-indigo-500',
-            count: null
-        },
-        {
-            title: 'Paramètres Système',
-            description: 'Configuration plateforme',
-            icon: Activity,
-            href: '/admin/settings',
-            color: 'bg-cyan-500',
-            count: null
-        }
-    ];
-
-    const fashionMetrics = [
-        {
-            title: 'Créateurs Actifs',
-            value: formattedStats.totalCreateurs,
-            growth: 8.2,
-            icon: Crown,
-            color: 'text-sky-600',
-            bgColor: 'bg-sky-50',
-            borderColor: 'border-sky-200'
-        },
-        {
-            title: 'Ateliers Partenaires',
-            value: formattedStats.totalAteliers,
-            growth: 15.3,
-            icon: Briefcase,
-            color: 'text-blue-600',
-            bgColor: 'bg-blue-50',
-            borderColor: 'border-blue-200'
-        },
-        {
-            title: 'Projets Mode',
-            value: formattedStats.totalProjects,
-            growth: 22.1,
-            icon: Layers,
-            color: 'text-indigo-600',
-            bgColor: 'bg-indigo-50',
-            borderColor: 'border-indigo-200'
-        },
-        {
-            title: 'Portfolios Premium',
-            value: formattedStats.totalPortfolios,
-            growth: 18.7,
-            icon: Sparkles,
-            color: 'text-cyan-600',
-            bgColor: 'bg-cyan-50',
-            borderColor: 'border-cyan-200'
-        }
-    ];
+    // Calculer le taux de croissance (simulation basée sur les données)
+    const growthRate = stats.total_users > 0 ? Math.round((stats.total_projects / stats.total_users) * 100) / 100 : 0;
 
     return (
-        <AdminLayout breadcrumbs={breadcrumbs}>
-            <Head title="Administration - Dashboard" />
-            <div className="flex h-full flex-1 flex-col gap-6 overflow-x-auto p-6">
+        <>
+            <Head title="Tableau de bord - Administration Atcho" />
+            <AdminLayout breadcrumbs={breadcrumbs}>
                 {/* Header Section */}
                 <div className="mb-8">
-                    <div className="flex items-center justify-between">
-                        <div>
-                            <h1 className="text-4xl font-bold text-sidebar-foreground tracking-tight">
-                                Dashboard Mode
-                    </h1>
-                            <p className="text-muted-foreground text-lg mt-2">
-                                Gestion de la plateforme haute couture Atcho
-                            </p>
+                    <div className="flex items-center gap-3 mb-4">
+                        <div className="p-2 bg-blue-100 rounded-lg">
+                            <Crown className="h-6 w-6 text-blue-600" />
                         </div>
-                        <div className="flex items-center space-x-3">
-                            <div className="flex items-center space-x-2 px-4 py-2 bg-sidebar-accent rounded-lg">
-                                <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                                <span className="text-sm font-medium text-sidebar-accent-foreground">
-                                    Système Opérationnel
-                                </span>
-                            </div>
-                        </div>
+                        <h1 className="text-3xl font-semibold text-slate-900">Tableau de bord</h1>
                     </div>
-                </div>
-                
-                {/* Graphique des Revenus - En Grand */}
-                <div className="mb-8">
-                    <div className="relative overflow-hidden rounded-2xl border border-sidebar-border bg-gradient-to-br from-sidebar to-sidebar-accent shadow-lg">
-                        <div className="absolute inset-0 bg-gradient-to-br from-amber-500/10 to-orange-500/10 opacity-50"></div>
-                        <div className="relative p-8">
-                            <RevenueChart 
-                                data={monthlyRevenue} 
-                                className="w-full"
-                            />
-                        </div>
-                    </div>
+                    <p className="text-slate-600 text-lg">
+                        Plateforme de collaboration mode - Créateurs et ateliers
+                    </p>
                 </div>
 
-                {/* Section Mode - Créateurs et Projets Récents */}
-                <div className="mb-8">
-                    <div className="mb-6">
-                        <h2 className="text-2xl font-bold text-sidebar-foreground mb-2">Créateurs Mode</h2>
-                        <p className="text-muted-foreground">Découvrez nos créateurs talentueux</p>
-                    </div>
-                    
-                    {recentCreateurs.length > 0 ? (
-                        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                            {recentCreateurs.map((createur) => (
-                                <div key={createur.id} className="group relative overflow-hidden rounded-2xl border border-sidebar-border bg-gradient-to-br from-sidebar to-sidebar-accent shadow-lg hover:shadow-xl transition-all duration-300">
-                                    <div className="relative">
-                                        {/* Image du créateur */}
-                                        <div className="h-48 w-full overflow-hidden">
-                                            <img 
-                                                src={createur.photo_profil || 'https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=400&h=300&fit=crop'} 
-                                                alt={createur.nom_marque}
-                                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                                            />
-                                        </div>
-                                        
-                                        {/* Contenu de la carte */}
-                                        <div className="p-6">
-                                            <div className="flex items-center justify-between mb-3">
-                                                <h3 className="text-lg font-bold text-sidebar-foreground">{createur.nom_marque}</h3>
-                                                <div className="flex items-center space-x-2">
-                                                    <Crown className="h-4 w-4 text-pink-600" />
-                                                    <span className="text-xs font-semibold text-pink-600 uppercase">{createur.style}</span>
-                                                </div>
-                                            </div>
-                                            
-                                            <p className="text-sm text-muted-foreground mb-3">
-                                                Créateur: {createur.createur}
-                                            </p>
-                                            
-                                            <div className="flex items-center justify-between">
-                                                <span className="text-xs text-muted-foreground">
-                                                    {createur.experience}
-                                                </span>
-                                                <div className="px-2 py-1 bg-pink-100 text-pink-700 text-xs font-bold rounded-full">
-                                                    Mode
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    ) : (
-                        <div className="text-center py-12">
-                            <Crown className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
-                            <p className="text-muted-foreground">Aucun créateur trouvé</p>
-                        </div>
-                    )}
+                {/* Stats Cards */}
+                <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+                    <Card className="hover:shadow-md transition-shadow border-l-4 border-l-blue-500">
+                        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                            <CardTitle className="text-sm font-medium text-slate-600">Utilisateurs</CardTitle>
+                            <div className="p-2 bg-blue-100 rounded-lg">
+                                <Users className="h-4 w-4 text-blue-600" />
+                            </div>
+                        </CardHeader>
+                        <CardContent>
+                            <div className="text-2xl font-bold text-slate-900">{stats.total_users.toLocaleString()}</div>
+                            <div className="flex items-center text-xs text-slate-500">
+                                <ArrowUpRight className="h-3 w-3 text-green-600 mr-1" />
+                                {growthRate}% taux d'activité
+                            </div>
+                        </CardContent>
+                    </Card>
+
+                    <Card className="hover:shadow-md transition-shadow border-l-4 border-l-blue-500">
+                        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                            <CardTitle className="text-sm font-medium text-slate-600">Créateurs</CardTitle>
+                            <div className="p-2 bg-blue-100 rounded-lg">
+                                <Award className="h-4 w-4 text-blue-600" />
+                            </div>
+                        </CardHeader>
+                        <CardContent>
+                            <div className="text-2xl font-bold text-slate-900">{stats.total_createurs}</div>
+                            <div className="flex items-center text-xs text-slate-500">
+                                <ArrowUpRight className="h-3 w-3 text-green-600 mr-1" />
+                                Créateurs actifs
+                            </div>
+                        </CardContent>
+                    </Card>
+
+                    <Card className="hover:shadow-md transition-shadow border-l-4 border-l-blue-500">
+                        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                            <CardTitle className="text-sm font-medium text-slate-600">Projets</CardTitle>
+                            <div className="p-2 bg-blue-100 rounded-lg">
+                                <Layers className="h-4 w-4 text-blue-600" />
+                            </div>
+                        </CardHeader>
+                        <CardContent>
+                            <div className="text-2xl font-bold text-slate-900">{stats.total_projects}</div>
+                            <div className="flex items-center text-xs text-slate-500">
+                                <ArrowUpRight className="h-3 w-3 text-green-600 mr-1" />
+                                Projets créés
+                            </div>
+                        </CardContent>
+                    </Card>
+
+                    <Card className="hover:shadow-md transition-shadow border-l-4 border-l-blue-500">
+                        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                            <CardTitle className="text-sm font-medium text-slate-600">Commandes</CardTitle>
+                            <div className="p-2 bg-blue-100 rounded-lg">
+                                <ShoppingCart className="h-4 w-4 text-blue-600" />
+                            </div>
+                        </CardHeader>
+                        <CardContent>
+                            <div className="text-2xl font-bold text-slate-900">{stats.total_orders}</div>
+                            <div className="flex items-center text-xs text-slate-500">
+                                <ArrowUpRight className="h-3 w-3 text-green-600 mr-1" />
+                                Commandes totales
+                            </div>
+                        </CardContent>
+                    </Card>
                 </div>
 
-                {/* Section Projets Mode */}
-                <div className="mb-8">
-                    <div className="mb-6">
-                        <h2 className="text-2xl font-bold text-sidebar-foreground mb-2">Projets Mode</h2>
-                        <p className="text-muted-foreground">Découvrez les dernières créations</p>
-                    </div>
-                    
-                    {recentProjets.length > 0 ? (
-                        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                            {recentProjets.map((projet) => (
-                                <div key={projet.id} className="group relative overflow-hidden rounded-2xl border border-sidebar-border bg-gradient-to-br from-sidebar to-sidebar-accent shadow-lg hover:shadow-xl transition-all duration-300">
-                                    <div className="relative">
-                                        {/* Image du projet */}
-                                        <div className="h-48 w-full overflow-hidden">
-                                            <img 
-                                                src={projet.image_principale || 'https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=400&h=300&fit=crop'} 
-                                                alt={projet.titre}
-                                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                                            />
-                                        </div>
-                                        
-                                        {/* Contenu de la carte */}
-                                        <div className="p-6">
-                                            <div className="flex items-center justify-between mb-3">
-                                                <h3 className="text-lg font-bold text-sidebar-foreground">{projet.titre}</h3>
-                                                <div className="flex items-center space-x-2">
-                                                    <Layers className="h-4 w-4 text-purple-600" />
-                                                    <span className="text-xs font-semibold text-purple-600 uppercase">Projet</span>
-                                                </div>
-                                            </div>
-                                            
-                                            <p className="text-sm text-muted-foreground mb-3 line-clamp-2">
-                                                {projet.description}
-                                            </p>
-                                            
-                                            <div className="flex items-center justify-between">
-                                                <span className="text-xs text-muted-foreground">
-                                                    Par: {projet.createur}
-                                                </span>
-                                                <div className="px-2 py-1 bg-purple-100 text-purple-700 text-xs font-bold rounded-full">
-                                                    Création
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                {/* Main Content Grid */}
+                <div className="grid gap-6 lg:grid-cols-3">
+                    {/* Projets par statut */}
+                    <Card className="lg:col-span-2 hover:shadow-md transition-shadow">
+                        <CardHeader>
+                            <div className="flex items-center justify-between">
+                                <div>
+                                    <CardTitle className="flex items-center gap-2 text-slate-900">
+                                        <TrendingUp className="h-5 w-5 text-blue-600" />
+                                        Répartition des Projets
+                                    </CardTitle>
+                                    <CardDescription className="text-slate-600">
+                                        Projets par statut
+                                    </CardDescription>
                                 </div>
-                            ))}
-                        </div>
-                    ) : (
-                        <div className="text-center py-12">
-                            <Layers className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
-                            <p className="text-muted-foreground">Aucun projet trouvé</p>
-                        </div>
-                    )}
-                </div>
-
-                {/* Métriques Principales */}
-                <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                    <div className="group relative overflow-hidden rounded-2xl border border-sidebar-border bg-gradient-to-br from-sidebar to-sidebar-accent shadow-lg hover:shadow-xl transition-all duration-300">
-                        <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                        <div className="relative p-6">
-                            <div className="flex items-start justify-between mb-4">
-                                <div className="flex-1 pr-4 min-w-0">
-                                    <p className="text-sm font-medium text-muted-foreground mb-2">Utilisateurs Totaux</p>
-                                    <p className="text-2xl sm:text-3xl font-bold text-sidebar-foreground mb-3 truncate">{formattedStats.totalUsers.toLocaleString()}</p>
-                                    <div className="flex items-center">
-                                        <TrendingUp className="h-4 w-4 text-green-500 mr-2" />
-                                        <span className="text-sm text-green-600 font-medium">+{formattedStats.userGrowth}%</span>
-                                    </div>
-                                </div>
-                                <div className="h-14 w-14 rounded-xl bg-sidebar-primary flex items-center justify-center shadow-lg flex-shrink-0">
-                                    <Users className="h-7 w-7 text-sidebar-primary-foreground" />
-                                </div>
+                                <Badge variant="secondary" className="bg-blue-100 text-blue-700">
+                                    {stats.total_projects} total
+                                </Badge>
                             </div>
-                            <div className="absolute -bottom-2 -right-2 w-20 h-20 opacity-5">
-                                <Users className="w-full h-full text-sidebar-foreground" />
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div className="group relative overflow-hidden rounded-2xl border border-sidebar-border bg-gradient-to-br from-sidebar to-sidebar-accent shadow-lg hover:shadow-xl transition-all duration-300">
-                        <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-pink-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                        <div className="relative p-6">
-                            <div className="flex items-start justify-between mb-4">
-                                <div className="flex-1 pr-4 min-w-0">
-                                    <p className="text-sm font-medium text-muted-foreground mb-2">Projets Mode</p>
-                                    <p className="text-2xl sm:text-3xl font-bold text-sidebar-foreground mb-3 truncate">{formattedStats.totalProjects.toLocaleString()}</p>
-                                    <div className="flex items-center">
-                                        <TrendingUp className="h-4 w-4 text-green-500 mr-2" />
-                                        <span className="text-sm text-green-600 font-medium">+{formattedStats.projectGrowth}%</span>
-                                    </div>
-                                </div>
-                                <div className="h-14 w-14 rounded-xl bg-sidebar-primary flex items-center justify-center shadow-lg flex-shrink-0">
-                                    <Package className="h-7 w-7 text-sidebar-primary-foreground" />
-                                </div>
-                            </div>
-                            <div className="absolute -bottom-2 -right-2 w-20 h-20 opacity-5">
-                                <Package className="w-full h-full text-sidebar-foreground" />
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div className="group relative overflow-hidden rounded-2xl border border-sidebar-border bg-gradient-to-br from-sidebar to-sidebar-accent shadow-lg hover:shadow-xl transition-all duration-300">
-                        <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 to-emerald-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                        <div className="relative p-6">
-                            <div className="flex items-start justify-between mb-4">
-                                <div className="flex-1 pr-4 min-w-0">
-                                    <p className="text-sm font-medium text-muted-foreground mb-2">Commandes</p>
-                                    <p className="text-2xl sm:text-3xl font-bold text-sidebar-foreground mb-3 truncate">{formattedStats.totalOrders.toLocaleString()}</p>
-                                    <div className="flex items-center">
-                                        <TrendingUp className="h-4 w-4 text-green-500 mr-2" />
-                                        <span className="text-sm text-green-600 font-medium">+{formattedStats.orderGrowth}%</span>
-                                    </div>
-                                </div>
-                                <div className="h-14 w-14 rounded-xl bg-sidebar-primary flex items-center justify-center shadow-lg flex-shrink-0">
-                                    <ShoppingCart className="h-7 w-7 text-sidebar-primary-foreground" />
-                                </div>
-                            </div>
-                            <div className="absolute -bottom-2 -right-2 w-20 h-20 opacity-5">
-                                <ShoppingCart className="w-full h-full text-sidebar-foreground" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                {/* Métriques Mode Spécialisées */}
-                <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-                    {fashionMetrics.map((metric, index) => {
-                        return (
-                            <div key={index} className={`group relative overflow-hidden rounded-2xl border ${metric.borderColor} ${metric.bgColor} shadow-lg hover:shadow-xl transition-all duration-300`}>
-                                <div className="absolute inset-0 bg-gradient-to-br from-sky-500/10 to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                                <div className="relative p-6">
-                                    <div className="flex items-start justify-between mb-4">
-                                        <div className="flex-1 pr-4 min-w-0">
-                                            <p className="text-sm font-medium text-muted-foreground mb-2">{metric.title}</p>
-                                            <p className="text-2xl sm:text-3xl font-bold text-sidebar-foreground mb-3 truncate">{metric.value.toLocaleString()}</p>
-                                            <div className="flex items-center">
-                                                <TrendingUp className="h-4 w-4 text-green-500 mr-2" />
-                                                <span className="text-sm text-green-600 font-medium">+{metric.growth}%</span>
-                                            </div>
-                                        </div>
-                                        <div className={`h-14 w-14 rounded-xl ${metric.bgColor} flex items-center justify-center shadow-lg flex-shrink-0`}>
-                                            <metric.icon className={`h-7 w-7 ${metric.color}`} />
-                                        </div>
-                                    </div>
-                                    <div className="absolute -bottom-2 -right-2 w-20 h-20 opacity-5">
-                                        <metric.icon className="w-full h-full text-sidebar-foreground" />
-                                    </div>
-                                </div>
-                            </div>
-                        );
-                    })}
-                </div>
-
-                {/* Actions Rapides et Activité */}
-                <div className="grid gap-6 lg:grid-cols-2">
-                    {/* Actions Rapides */}
-                    <div className="group relative overflow-hidden rounded-2xl border border-sidebar-border bg-gradient-to-br from-sidebar to-sidebar-accent shadow-lg hover:shadow-xl transition-all duration-300">
-                        <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=600&h=400&fit=crop')] bg-cover bg-center opacity-20"></div>
-                        <div className="relative p-6">
-                            <div className="flex items-center justify-between mb-6">
-                                <h3 className="text-xl font-bold text-sidebar-foreground">Actions Rapides</h3>
-                                <Target className="h-5 w-5 text-muted-foreground" />
-                            </div>
-                            <div className="grid gap-4">
-                                {quickActions.map((action, index) => (
-                                    <Link key={index} href={action.href} className="group">
-                                        <div className="flex items-center space-x-4 p-4 rounded-xl bg-sidebar-accent hover:bg-sidebar-accent/80 transition-all duration-300 hover:shadow-md">
-                                            <div className={`h-10 w-10 rounded-lg ${action.color} flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300`}>
-                                                <action.icon className="h-5 w-5 text-white" />
-                                            </div>
-                                            <div className="flex-1">
-                                                <h4 className="font-semibold text-sidebar-accent-foreground group-hover:text-sidebar-foreground transition-colors">
-                                                    {action.title}
-                                                </h4>
-                                                <p className="text-sm text-muted-foreground">{action.description}</p>
-                                            </div>
-                                            {action.count && (
-                                                <div className="px-2 py-1 bg-sidebar-primary text-sidebar-primary-foreground text-xs font-bold rounded-full">
-                                                    {action.count}
-                                                </div>
-                                            )}
-                                        </div>
-                                    </Link>
-                                ))}
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Activité Récente */}
-                    <div className="relative overflow-hidden rounded-2xl border border-sidebar-border bg-sidebar shadow-lg">
-                        <div className="p-6">
-                            <div className="flex items-center justify-between mb-6">
-                                <h3 className="text-xl font-bold text-sidebar-foreground">Activité Récente</h3>
-                                <Activity className="h-5 w-5 text-muted-foreground" />
-                            </div>
+                        </CardHeader>
+                        <CardContent>
                             <div className="space-y-4">
-                                {recentActivities.map((activity) => (
-                                    <div key={activity.id} className="flex items-center space-x-4 p-4 rounded-xl bg-sidebar-accent hover:bg-sidebar-accent/80 transition-all duration-300">
-                                        <div className={`h-10 w-10 rounded-full flex items-center justify-center ${
-                                            activity.status === 'success' ? 'bg-green-100' :
-                                            activity.status === 'warning' ? 'bg-yellow-100' :
-                                            activity.status === 'info' ? 'bg-blue-100' : 'bg-gray-100'
-                                        }`}>
-                                            {activity.status === 'success' && <CheckCircle className="h-5 w-5 text-green-600" />}
-                                            {activity.status === 'warning' && <AlertCircle className="h-5 w-5 text-yellow-600" />}
-                                            {activity.status === 'info' && <Bell className="h-5 w-5 text-blue-600" />}
+                                <div className="text-3xl font-bold text-slate-900">
+                                    {stats.total_projects} projets
+                                </div>
+                                <div className="space-y-2">
+                                    {Object.entries(projectsByStatus).map(([status, count]) => (
+                                        <div key={status} className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
+                                            <span className="text-sm font-medium text-slate-700 capitalize">
+                                                {status.replace('_', ' ')}
+                                            </span>
+                                            <span className="text-sm font-bold text-blue-600">{count}</span>
                                         </div>
-                                        <div className="flex-1">
-                                            <p className="font-medium text-sidebar-accent-foreground">{activity.message}</p>
-                                            <p className="text-sm text-muted-foreground">{activity.user}</p>
+                                    ))}
+                                </div>
+                            </div>
+                        </CardContent>
+                    </Card>
+
+                    {/* Créateurs récents */}
+                    <Card className="hover:shadow-md transition-shadow">
+                        <CardHeader>
+                            <CardTitle className="flex items-center gap-2 text-slate-900">
+                                <Award className="h-5 w-5 text-blue-600" />
+                                Créateurs Récents
+                            </CardTitle>
+                            <CardDescription className="text-slate-600">
+                                Derniers créateurs inscrits
+                            </CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                            <div className="space-y-4">
+                                {recentCreateurs.map((createur, index) => (
+                                    <div key={createur.id} className="flex items-center space-x-3 p-3 rounded-lg hover:bg-blue-50 transition-colors">
+                                        <div className="flex items-center justify-center w-8 h-8 bg-blue-100 text-blue-700 rounded-full text-sm font-bold">
+                                            {index + 1}
                                         </div>
-                                        <div className="flex items-center space-x-2">
-                                            <Clock className="h-4 w-4 text-muted-foreground" />
-                                            <span className="text-sm text-muted-foreground">{activity.time}</span>
+                                        <div className="flex-1 min-w-0">
+                                            <p className="text-sm font-medium truncate text-slate-900">{createur.nom_marque}</p>
+                                            <p className="text-xs text-slate-500">
+                                                {createur.createur} • {createur.style}
+                                            </p>
                                         </div>
+                                        <Badge variant="outline" className="text-xs border-blue-200 text-blue-600">
+                                            Nouveau
+                                        </Badge>
                                     </div>
                                 ))}
                             </div>
-                        </div>
-                    </div>
+                        </CardContent>
+                    </Card>
                 </div>
 
-                {/* Graphiques et Analytics */}
-                <div className="grid gap-6 lg:grid-cols-2">
-                    <div className="relative overflow-hidden rounded-2xl border border-sidebar-border bg-sidebar shadow-lg">
-                        <div className="p-6">
-                            <div className="flex items-center justify-between mb-6">
-                                <h3 className="text-xl font-bold text-sidebar-foreground">Performance Mode</h3>
-                                <BarChart3 className="h-5 w-5 text-muted-foreground" />
-                            </div>
-                            <div className="h-64 flex items-center justify-center">
-                                <div className="text-center">
-                                    <BarChart3 className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
-                                    <p className="text-muted-foreground">Graphiques de performance en cours de développement</p>
+                {/* Activités récentes */}
+                <Card className="hover:shadow-md transition-shadow">
+                    <CardHeader>
+                        <CardTitle className="flex items-center gap-2 text-slate-900">
+                            <Activity className="h-5 w-5 text-blue-600" />
+                            Activités Récentes
+                        </CardTitle>
+                        <CardDescription className="text-slate-600">
+                            Dernières activités sur la plateforme
+                        </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <div className="space-y-4">
+                            {recentUsers.slice(0, 3).map((user) => (
+                                <div key={user.id} className="flex items-center space-x-3 p-3 rounded-lg hover:bg-blue-50 transition-colors">
+                                    <div className="flex items-center justify-center w-8 h-8 bg-blue-100 rounded-full">
+                                        <UserPlus className="h-4 w-4 text-blue-600" />
+                                    </div>
+                                    <div className="flex-1 min-w-0">
+                                        <p className="text-sm font-medium text-slate-900">
+                                            Nouvel utilisateur: {user.prenom} {user.nom}
+                                        </p>
+                                        <p className="text-xs text-slate-500">
+                                            {new Date(user.created_at).toLocaleDateString('fr-FR')}
+                                        </p>
+                                    </div>
+                                    <Badge variant="secondary" className="text-xs bg-blue-100 text-blue-700">
+                                        Utilisateur
+                                    </Badge>
                                 </div>
-                            </div>
+                            ))}
+                            {recentProjects.slice(0, 2).map((project) => (
+                                <div key={project.id} className="flex items-center space-x-3 p-3 rounded-lg hover:bg-blue-50 transition-colors">
+                                    <div className="flex items-center justify-center w-8 h-8 bg-blue-100 rounded-full">
+                                        <Briefcase className="h-4 w-4 text-blue-600" />
+                                    </div>
+                                    <div className="flex-1 min-w-0">
+                                        <p className="text-sm font-medium text-slate-900">
+                                            Nouveau projet: {project.nom}
+                                        </p>
+                                        <p className="text-xs text-slate-500">
+                                            Par {project.createur.name} • {new Date(project.created_at).toLocaleDateString('fr-FR')}
+                                        </p>
+                                    </div>
+                                    <Badge variant="secondary" className="text-xs bg-blue-100 text-blue-700">
+                                        Projet
+                                    </Badge>
+                                </div>
+                            ))}
                         </div>
-                    </div>
-                    
-                    <div className="relative overflow-hidden rounded-2xl border border-sidebar-border bg-sidebar shadow-lg">
-                        <div className="p-6">
-                            <div className="flex items-center justify-between mb-6">
-                                <h3 className="text-xl font-bold text-sidebar-foreground">Tendances Mode</h3>
-                                <TrendingUp className="h-5 w-5 text-muted-foreground" />
-                                </div>
-                            <div className="h-64 flex items-center justify-center">
-                                <div className="text-center">
-                                    <TrendingUp className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
-                                    <p className="text-muted-foreground">Analyse des tendances en cours de développement</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </AdminLayout>
+                    </CardContent>
+                </Card>
+            </AdminLayout>
+        </>
     );
 }

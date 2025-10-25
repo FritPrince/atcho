@@ -114,3 +114,5 @@ class OrderController extends Controller
             ->with('success', 'Commande supprimée avec succès.');
     }
 }
+
+

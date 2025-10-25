@@ -92,3 +92,5 @@ class CategorieServiceController extends Controller
             ->with('success', 'Catégorie de service supprimée avec succès.');
     }
 }
+
+

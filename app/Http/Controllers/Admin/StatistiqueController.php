@@ -38,3 +38,5 @@ class StatistiqueController extends Controller
         ]);
     }
 }
+
+

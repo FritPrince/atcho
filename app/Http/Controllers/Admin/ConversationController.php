@@ -110,3 +110,5 @@ class ConversationController extends Controller
             ->with('success', 'Conversation supprimée avec succès.');
     }
 }
+
+

@@ -253,3 +253,5 @@ export default function EtapeProductionShow({ etapeProduction }: Props) {
         </AdminLayout>
     );
 }
+
+

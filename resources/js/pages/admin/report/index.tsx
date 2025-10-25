@@ -309,3 +309,5 @@ export default function ReportIndex({ reports }: Props) {
         </AdminLayout>
     );
 }
+
+

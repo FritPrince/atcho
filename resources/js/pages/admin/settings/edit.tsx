@@ -231,3 +231,5 @@ export default function SettingsEdit({ setting }: Props) {
         </AdminLayout>
     );
 }
+
+

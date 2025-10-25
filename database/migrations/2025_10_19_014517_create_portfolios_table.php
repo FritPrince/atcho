@@ -15,9 +15,13 @@ return new class extends Migration
             $table->id();
             $table->string('nom');
             $table->text('description')->nullable();
+            $table->string('image_principale')->nullable();
+            $table->string('image_couverture')->nullable();
+            $table->json('galerie_images')->nullable();
+            $table->string('logo_atelier')->nullable();
             $table->boolean('est_public')->default(true);
             $table->timestamp('date_creation')->nullable();
-            $table->foreignId('atelier_id')->constrained('profil_ateliers')->onDelete('cascade');
+            $table->foreignId('atelier_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });
     }
